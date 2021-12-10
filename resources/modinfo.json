@@ -1,0 +1,14 @@
+{
+	"type": "code",
+	"name": "Bonfires",
+	"modid": "bonfires",
+	"version": "0.1.0",
+	
+	"description" : "Adds bonfires.",
+	"website": "https://github.com/copygirl/howto-example-mod",
+	"authors": [ "Zarkonnen" ],
+	
+	"dependencies": {
+		"game": "1.15.0"
+	}
+}
