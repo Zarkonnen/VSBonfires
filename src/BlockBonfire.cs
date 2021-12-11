@@ -48,6 +48,25 @@ namespace Bonfires
             }
         }
 
+        public override EnumIgniteState OnTryIgniteBlock(EntityAgent byEntity, BlockPos pos, float secondsIgniting)
+        {
+            BlockEntityBonfire bef = api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityBonfire;
+            if (bef != null && bef.Burning) return EnumIgniteState.NotIgnitablePreventDefault;
+
+            return secondsIgniting > 3 ? EnumIgniteState.IgniteNow : EnumIgniteState.Ignitable;
+        }
+
+        public override void OnTryIgniteBlockOver(EntityAgent byEntity, BlockPos pos, float secondsIgniting, ref EnumHandling handling)
+        {
+            BlockEntityBonfire bef = api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityBonfire;
+            if (bef != null && !bef.Burning)
+            {
+                bef.ignite();
+            }
+
+            handling = EnumHandling.PreventDefault;
+        }
+
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
