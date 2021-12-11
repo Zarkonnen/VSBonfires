@@ -15,7 +15,7 @@ namespace Bonfires
     public class BlockEntityBonfire : BlockEntity, IHeatSource
     {
         public double BurningUntilTotalHours;
-        public float BurnTimeHours = 1;
+        public float BurnTimeHours = 0.1F;
         public bool Burning = false;
 
         public override void Initialize(ICoreAPI api)
@@ -26,25 +26,28 @@ namespace Bonfires
                 BurningUntilTotalHours = Math.Min(api.World.Calendar.TotalHours + BurnTimeHours, BurningUntilTotalHours);
             }
             RegisterGameTickListener(OnceASecond, 1000);
-            System.Console.WriteLine("init");
+            //System.Console.WriteLine("init");
             
         }
 
         private void OnceASecond(float dt)
         {
-            System.Console.WriteLine("sec");
+            //System.Console.WriteLine("sec");
             if (Api is ICoreClientAPI)
             {
                 return;
             }
             if (Burning)
             {
-                System.Console.WriteLine(Api.World.Calendar.TotalHours + " vs " +  BurningUntilTotalHours);
+                //System.Console.WriteLine(Api.World.Calendar.TotalHours + " vs " +  BurningUntilTotalHours);
                 if (Api.World.Calendar.TotalHours >= BurningUntilTotalHours)
                 {
                     setBlockState("extinct");
                     Burning = false;
-                    System.Console.WriteLine("extinguish");
+                    //System.Console.WriteLine("extinguish");
+                    // See if we want to crack the block below us.
+                    Block belowBlock = Api.World.BlockAccessor.GetBlock(Pos.DownCopy());
+                    System.Console.Write("below block is " + belowBlock.Code.ToString());
                 }
             }
         }
