@@ -14,14 +14,21 @@ namespace Bonfires
 {
     public class BlockEntityBonfire : BlockEntity, IHeatSource
     {
-        public float accumTime;
-        public bool burning = true;
+        public double BurningUntilTotalHours;
+        public float BurnTimeHours = 1;
+        public bool Burning = true;
 
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
+            /*if (Burning)
+            {
+                BurningUntilTotalHours = Math.Min(api.World.Calendar.TotalHours + BurnTimeHours, BurningUntilTotalHours);
+            }*/
+            BurningUntilTotalHours = api.World.Calendar.TotalHours + BurnTimeHours;
             RegisterGameTickListener(OnceASecond, 1000);
             System.Console.WriteLine("init");
+            
         }
 
         private void OnceASecond(float dt)
@@ -31,14 +38,13 @@ namespace Bonfires
             {
                 return;
             }
-            if (burning)
+            if (Burning)
             {
-                accumTime += dt;
-                System.Console.WriteLine("burn " + accumTime);
-                if (accumTime > 5)
+                System.Console.WriteLine(Api.World.Calendar.TotalHours + " vs " +  BurningUntilTotalHours);
+                if (Api.World.Calendar.TotalHours >= BurningUntilTotalHours)
                 {
                     setBlockState("extinct");
-                    burning = false;
+                    Burning = false;
                     System.Console.WriteLine("extinguish");
                 }
             }
@@ -56,7 +62,7 @@ namespace Bonfires
 
         public float GetHeatStrength(IWorldAccessor world, BlockPos heatSourcePos, BlockPos heatReceiverPos)
         {
-            return burning ? 30 : 1;
+            return Burning ? 30 : 1;
         }
     }
 }
