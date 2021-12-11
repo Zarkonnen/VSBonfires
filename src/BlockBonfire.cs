@@ -63,7 +63,7 @@ namespace Bonfires
                         List<ItemStack> stacks = obj.GetHandBookStacks(api as ICoreClientAPI);
                         if (stacks != null) canIgniteStacks.AddRange(stacks);
                     }
-                    if (obj is Item && (obj as Item).Attributes?.IsTrue("firepitConstructable") == true)
+                    if (obj is Item && (obj as Item).Code.Path.Equals("firewood") == true)
                     {
                         List<ItemStack> stacks = obj.GetHandBookStacks(api as ICoreClientAPI);
                         if (stacks != null) fuelStacks.AddRange(stacks);
@@ -135,7 +135,7 @@ namespace Bonfires
             int stage = Stage;
             ItemStack stack = byPlayer.InventoryManager.ActiveHotbarSlot?.Itemstack;
 
-            if (stage < 4 && stack?.Collectible.Attributes?.IsTrue("firepitConstructable") == true && byPlayer.InventoryManager.ActiveHotbarSlot.StackSize >= 8)
+            if (stage < 4 && stack?.Collectible.Code.Path.Equals("firewood") == true && byPlayer.InventoryManager.ActiveHotbarSlot.StackSize >= 8)
             {
                 BlockPos pos = blockSel.Position;
                 Block block = world.GetBlock(CodeWithParts(NextStageCodePart));

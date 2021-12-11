@@ -22,7 +22,7 @@
 		handbook: {
 			groupBy: ["bonfire-*"],
 			extraSections: [
-				{ title: "handbooktitle-bonfire", text: "handbooktext-bonfire" }
+				{ title: "bonfires:handbooktitle-bonfire", text: "bonfires:handbooktext-bonfire" }
 			]
 		}
 	},

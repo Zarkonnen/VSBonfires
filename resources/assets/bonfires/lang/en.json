@@ -8,7 +8,7 @@
 	"block-bonfire-cold": "Bonfire",
     "blockhelp-bonfire-fuel": "x8 Add Fuel",
 	"handbooktitle-bonfire": "Bonfires",
-    "handbooktext-bonfire": "Start a bonfire by crafting a <a href=\"handbook://bonfires:block-bonfire-construct1\">bonfire base</a>, placing it, fuelling it with 24 firewood, and lighting it with a torch. Once it has burned out, any adjacent rocks and ores will have cracked from the heat, making them easier to break.",
+    "handbooktext-bonfire": "Start a bonfire by crafting a bonfire base, placing it, fuelling it with 24 firewood, and lighting it with a torch. Once it has burned out, any adjacent rocks and ores will have cracked from the heat, making them easier to break.",
 	"block-cracked_ore-medium-rhodochrosite-*": "Rhodochrosite (Cracked)",
     "block-cracked_ore-corundum-*": "Corundum (Cracked)",
     "block-cracked_ore-low-diamond-*": "Diamond (low grade) (Cracked)",
