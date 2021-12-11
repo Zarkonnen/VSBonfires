@@ -38,8 +38,6 @@ namespace Bonfires
             fireBlock = Api.World.GetBlock(new AssetLocation("fire"));
             if (fireBlock == null) fireBlock = new Block();
 
-            System.Console.WriteLine("init burning? " + Burning + " " + BurningUntilTotalHours);
-
             if (Burning)
             {
                 initSoundsAndTicking();
@@ -73,6 +71,10 @@ namespace Bonfires
             //System.Console.WriteLine("sec");
             if (Api is ICoreClientAPI)
             {
+                if (!Burning)
+                {
+                    ambientSound?.FadeOutAndStop(1);
+                }
                 return;
             }
             if (Burning)
@@ -158,7 +160,6 @@ namespace Bonfires
         public void killFire()
         {
             setBlockState("extinct");
-            ambientSound?.FadeOutAndStop(1);
             UnregisterGameTickListener(listener);
         }
 
@@ -244,6 +245,26 @@ namespace Bonfires
         {
             base.ToTreeAttributes(tree);
             tree.SetDouble("BurningUntilTotalHours", BurningUntilTotalHours);
+        }
+
+        public override void OnBlockRemoved()
+        {
+            base.OnBlockRemoved();
+
+            if (ambientSound != null)
+            {
+                ambientSound?.Stop();
+                ambientSound?.Dispose();
+                ambientSound = null;
+            }
+        }
+
+        ~BlockEntityBonfire()
+        {
+            if (ambientSound != null)
+            {
+                ambientSound?.Dispose();
+            }
         }
     }
 }
