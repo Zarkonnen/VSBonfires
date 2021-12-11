@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	
 	"description" : "Adds bonfires.",
-	"website": "https://github.com/copygirl/howto-example-mod",
+	"website": "https://github.com/Zarkonnen/VSBonfires/tree/main",
 	"authors": [ "Zarkonnen" ],
 	
 	"dependencies": {
