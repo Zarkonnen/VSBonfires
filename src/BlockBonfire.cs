@@ -23,10 +23,8 @@ namespace Bonfires
                         return 2;
                     case "construct3":
                         return 3;
-                    case "construct4":
-                        return 4;
                 }
-                return 5;
+                return 4;
         } }
 
         public string NextStageCodePart
@@ -40,8 +38,6 @@ namespace Bonfires
                     case "construct2":
                         return "construct3";
                     case "construct3":
-                        return "construct4";
-                    case "construct4":
                         return "cold";
                 }
                 return "cold";
@@ -73,7 +69,7 @@ namespace Bonfires
             int stage = Stage;
             ItemStack stack = byPlayer.InventoryManager.ActiveHotbarSlot?.Itemstack;
 
-            if (stage < 5 && stack?.Collectible.Attributes?.IsTrue("firepitConstructable") == true)
+            if (stage < 4 && stack?.Collectible.Attributes?.IsTrue("firepitConstructable") == true && byPlayer.InventoryManager.ActiveHotbarSlot.StackSize >= 8)
             {
                 BlockPos pos = blockSel.Position;
                 Block block = world.GetBlock(CodeWithParts(NextStageCodePart));
@@ -82,7 +78,7 @@ namespace Bonfires
                 if (block.Sounds != null) world.PlaySoundAt(block.Sounds.Place, pos.X, pos.Y, pos.Z, byPlayer);
                 if (byPlayer != null && byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative)
                 {
-                    byPlayer.InventoryManager.ActiveHotbarSlot.TakeOut(1);
+                    byPlayer.InventoryManager.ActiveHotbarSlot.TakeOut(8);
                 }
                 return true;
             }

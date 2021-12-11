@@ -140,7 +140,7 @@
 	textures: {
 		all: {
 			base: "game:block/stone/rock/{rock}1",
-			overlays: [ "game:block/stone/ore/{type}1", "game:block/cracked/cracked*" ],
+			overlays: [ "game:block/stone/ore/{type}1", "game:block/cracked/cracked1" ],
 			alternates: [
 				{ base: "game:block/stone/rock/{rock}1", overlays: [ "game:block/stone/ore/{type}2", "game:block/cracked/cracked1" ] },
 				{ base: "game:block/stone/rock/{rock}1", overlays: [ "game:block/stone/ore/{type}3", "game:block/cracked/cracked1" ] }

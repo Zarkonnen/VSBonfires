@@ -1,0 +1,10 @@
+{
+	ingredientPattern: "A,B",
+	ingredients: {
+		"A": { type: "item", code: "game:stick", quantity: 16 },
+		"B": { type: "item", code: "game:drygrass", quantity: 4 },
+	},
+	width: 1,
+	height: 2,
+	output: { type: "block", code: "bonfire-construct1", quantity: 1  }
+}

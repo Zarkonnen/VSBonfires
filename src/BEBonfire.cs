@@ -47,7 +47,18 @@ namespace Bonfires
                     //System.Console.WriteLine("extinguish");
                     // See if we want to crack the block below us.
                     Block belowBlock = Api.World.BlockAccessor.GetBlock(Pos.DownCopy());
-                    System.Console.Write("below block is " + belowBlock.Code.ToString());
+                    System.Console.WriteLine("below block is " + belowBlock.Code.ToString());
+                    if (belowBlock.FirstCodePart().Equals("ore"))
+                    {
+                        AssetLocation crackedOre = belowBlock.CodeWithPart("cracked_ore");
+                        crackedOre.Domain = "bonfires";
+                        System.Console.WriteLine("cracked ore block is " + crackedOre.ToString() + " valid? " + crackedOre.Valid);
+                        if (crackedOre.Valid)
+                        {
+                            Block crackedBlock = Api.World.GetBlock(crackedOre);
+                            Api.World.BlockAccessor.ExchangeBlock(crackedBlock.Id, Pos.DownCopy());
+                        }
+                    }
                 }
             }
         }
