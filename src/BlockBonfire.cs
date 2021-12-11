@@ -14,6 +14,7 @@ namespace Bonfires
 {
     public class BlockBonfire : Block
     {
+        WorldInteraction[] interactions;
         public int Stage { get {
             switch (LastCodePart())
                 {
@@ -42,6 +43,71 @@ namespace Bonfires
                 }
                 return "cold";
             }
+        }
+
+        public override void OnLoaded(ICoreAPI api)
+        {
+            base.OnLoaded(api);
+
+            interactions = ObjectCacheUtil.GetOrCreate(api, "bonfireInteractions-"+Stage, () =>
+            {
+                List<ItemStack> canIgniteStacks = new List<ItemStack>();
+                List<ItemStack> fuelStacks = new List<ItemStack>();
+
+                foreach (CollectibleObject obj in api.World.Collectibles)
+                {
+                    //string firstCodePart = obj.FirstCodePart();
+
+                    if (obj is Block && (obj as Block).HasBehavior<BlockBehaviorCanIgnite>() || obj is ItemFirestarter)
+                    {
+                        List<ItemStack> stacks = obj.GetHandBookStacks(api as ICoreClientAPI);
+                        if (stacks != null) canIgniteStacks.AddRange(stacks);
+                    }
+                    if (obj is Item && (obj as Item).Attributes?.IsTrue("firepitConstructable") == true)
+                    {
+                        List<ItemStack> stacks = obj.GetHandBookStacks(api as ICoreClientAPI);
+                        if (stacks != null) fuelStacks.AddRange(stacks);
+                    }
+                }
+
+                return new WorldInteraction[]
+                {
+                    new WorldInteraction()
+                    {
+                        ActionLangCode = "blockhelp-firepit-ignite",
+                        MouseButton = EnumMouseButton.Right,
+                        HotKeyCode = "sneak",
+                        Itemstacks = canIgniteStacks.ToArray(),
+                        GetMatchingStacks = (wi, bs, es) => {
+                            Block bf = api.World.BlockAccessor.GetBlock(bs.Position);
+                            if (bf.LastCodePart().Equals("cold"))
+                            {
+                                return wi.Itemstacks;
+                            }
+                            return null;
+                        }
+                    },
+                    new WorldInteraction()
+                    {
+                        ActionLangCode = "bonfires:blockhelp-bonfire-fuel",
+                        MouseButton = EnumMouseButton.Right,
+                        Itemstacks = fuelStacks.ToArray(),
+                        GetMatchingStacks = (wi, bs, es) => {
+                            Block bf = api.World.BlockAccessor.GetBlock(bs.Position);
+                            if (bf.LastCodePart().StartsWith("construct"))
+                            {
+                                return wi.Itemstacks;
+                            }
+                            return null;
+                        }
+                    }
+                };
+            });
+        }
+
+        public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
+        {
+            return interactions.Append(base.GetPlacedBlockInteractionHelp(world, selection, forPlayer));
         }
 
         public override EnumIgniteState OnTryIgniteBlock(EntityAgent byEntity, BlockPos pos, float secondsIgniting)

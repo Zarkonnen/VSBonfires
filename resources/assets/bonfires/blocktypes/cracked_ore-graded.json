@@ -426,7 +426,7 @@
 	],
 	creativeinventory: { "general": ["*"], "terrain": ["*"] },
 	storageFlags: 5,
-	shape: { base: "block/basic/cube" },
+	shape: { base: "game:block/basic/cube" },
 	drawtype: "cube",
 	textures: {
 		all: {

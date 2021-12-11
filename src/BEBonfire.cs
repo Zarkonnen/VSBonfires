@@ -16,8 +16,7 @@ namespace Bonfires
     public class BlockEntityBonfire : BlockEntity, IHeatSource
     {
         public double BurningUntilTotalHours;
-        public float BurnTimeHours = 4;
-        public bool Burning = false;
+        public float BurnTimeHours = 16;
         Block fireBlock;
         public string startedByPlayerUid;
         ILoadedSound ambientSound;
@@ -25,15 +24,24 @@ namespace Bonfires
 
         static Cuboidf fireCuboid = new Cuboidf(-0.35f, 0, -0.35f, 1.35f, 2.8f, 1.35f);
 
+        public bool Burning
+        {
+            get
+            {
+                return Block.LastCodePart().Equals("lit");
+            }
+        }
+
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
             fireBlock = Api.World.GetBlock(new AssetLocation("fire"));
             if (fireBlock == null) fireBlock = new Block();
 
+            System.Console.WriteLine("init burning? " + Burning + " " + BurningUntilTotalHours);
+
             if (Burning)
             {
-                BurningUntilTotalHours = Math.Min(api.World.Calendar.TotalHours + BurnTimeHours, BurningUntilTotalHours);
                 initSoundsAndTicking();
             }
         }
@@ -45,7 +53,7 @@ namespace Bonfires
             {
                 ambientSound = ((IClientWorldAccessor)Api.World).LoadSound(new SoundParams()
                 {
-                    Location = new AssetLocation("game:sounds/environment/fire.ogg"),
+                    Location = new AssetLocation("bonfires:sounds/bonfire.ogg"),
                     ShouldLoop = true,
                     Position = Pos.ToVec3f().Add(0.5f, 0.25f, 0.5f),
                     DisposeOnFinish = false,
@@ -54,7 +62,6 @@ namespace Bonfires
 
                 if (ambientSound != null)
                 {
-                    System.Console.WriteLine("sound nao");
                     ambientSound.PlaybackPosition = ambientSound.SoundLengthSeconds * (float)Api.World.Rand.NextDouble();
                     ambientSound.Start();
                 }
@@ -143,7 +150,6 @@ namespace Bonfires
         {
             startedByPlayerUid = playerUid;
             BurningUntilTotalHours = Api.World.Calendar.TotalHours + BurnTimeHours;
-            Burning = true;
             setBlockState("lit");
             MarkDirty(true);
             initSoundsAndTicking();
@@ -152,7 +158,6 @@ namespace Bonfires
         public void killFire()
         {
             setBlockState("extinct");
-            Burning = false;
             ambientSound?.FadeOutAndStop(1);
             UnregisterGameTickListener(listener);
         }
@@ -227,6 +232,18 @@ namespace Bonfires
         {
             Block block = Api.World.BlockAccessor.GetBlock(pos);
             return block?.CombustibleProps != null && block.CombustibleProps.BurnDuration > 0;
+        }
+
+        public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
+        {
+            base.FromTreeAttributes(tree, worldForResolving);
+            BurningUntilTotalHours = tree.GetDouble("BurningUntilTotalHours", 0);
+        }
+
+        public override void ToTreeAttributes(ITreeAttribute tree)
+        {
+            base.ToTreeAttributes(tree);
+            tree.SetDouble("BurningUntilTotalHours", BurningUntilTotalHours);
         }
     }
 }

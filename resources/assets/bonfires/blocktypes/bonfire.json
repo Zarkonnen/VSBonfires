@@ -18,6 +18,14 @@
 	sideopaque: {
 		all: false
 	},
+	attributes: {
+		handbook: {
+			groupBy: ["bonfire-*"],
+			extraSections: [
+				{ title: "handbooktitle-bonfire", text: "handbooktext-bonfire" }
+			]
+		}
+	},
 	sounds: {
 		"place": "game:block/planks",
 		"hit": "game:block/planks",
@@ -143,7 +151,7 @@
 				quantity: { avg: 16, var: 0 }
 			},
 			{
-				type: "block",
+				type: "item",
 				code: "game:firewood",
 				quantity: { avg: 8, var: 0 }
 			}
@@ -155,7 +163,7 @@
 				quantity: { avg: 16, var: 0 }
 			},
 			{
-				type: "block",
+				type: "item",
 				code: "game:firewood",
 				quantity: { avg: 16, var: 0 }
 			}
@@ -167,7 +175,7 @@
 				quantity: { avg: 8, var: 0 }
 			},
 			{
-				type: "block",
+				type: "item",
 				code: "game:firewood",
 				quantity: { avg: 24, var: 0 }
 			}
