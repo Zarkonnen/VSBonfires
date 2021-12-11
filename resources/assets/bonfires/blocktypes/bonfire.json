@@ -1,8 +1,9 @@
 {
 	code: "bonfire",
+	class: "BlockBonfire",
 	entityClass: "BlockEntityBonfire",
 	variantgroups: [
-		{ code:"burnstate", states: ["extinct", "lit"] }
+		{ code:"burnstate", states: ["construct1", "construct2", "construct3", "construct4", "extinct", "lit", "cold"] }
 	],
 	shape: { base: "game:block/wood/firepit/{burnstate}-normal" },
 	heldTpIdleAnimation: "holdunderarm",
@@ -24,7 +25,10 @@
 		"walk": "game:walk/wood"
 	},
 	behaviorsByType: {
-		"*": [{name: "Unstable"}, { name: "Ignitable" }, { name: "HeatSource" }],
+		"*-construct*": [ {name: "Unstable"}],
+		"*-extinct": [ {name: "Unstable"}],
+		"*-cold": [{name: "Unstable"}, { name: "Ignitable" }],
+		"*-lit": [{name: "Unstable"}, { name: "Ignitable" }, { name: "HeatSource" }],
 	},
 	lightHsvByType: {
 		"bonfire-extinct": [7, 7, 3],

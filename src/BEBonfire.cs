@@ -16,16 +16,15 @@ namespace Bonfires
     {
         public double BurningUntilTotalHours;
         public float BurnTimeHours = 1;
-        public bool Burning = true;
+        public bool Burning = false;
 
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
-            /*if (Burning)
+            if (Burning)
             {
                 BurningUntilTotalHours = Math.Min(api.World.Calendar.TotalHours + BurnTimeHours, BurningUntilTotalHours);
-            }*/
-            BurningUntilTotalHours = api.World.Calendar.TotalHours + BurnTimeHours;
+            }
             RegisterGameTickListener(OnceASecond, 1000);
             System.Console.WriteLine("init");
             
@@ -58,6 +57,14 @@ namespace Bonfires
 
             Api.World.BlockAccessor.ExchangeBlock(block.Id, Pos);
             this.Block = block;
+        }
+
+        public void ignite()
+        {
+            BurningUntilTotalHours = Api.World.Calendar.TotalHours + BurnTimeHours;
+            Burning = true;
+            setBlockState("lit");
+            MarkDirty(true);
         }
 
         public float GetHeatStrength(IWorldAccessor world, BlockPos heatSourcePos, BlockPos heatReceiverPos)

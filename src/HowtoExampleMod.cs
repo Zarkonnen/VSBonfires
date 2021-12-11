@@ -15,6 +15,7 @@ namespace Bonfires
 		{
 			//api.RegisterBlockBehaviorClass(InstaTNTBehavior.NAME, typeof(InstaTNTBehavior));
 			api.RegisterBlockEntityClass("BlockEntityBonfire", typeof(BlockEntityBonfire));
+			api.RegisterBlockClass("BlockBonfire", typeof(BlockBonfire));
 		}
 		
 		public override void StartClientSide(ICoreClientAPI api)
