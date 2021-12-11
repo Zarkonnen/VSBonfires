@@ -57,7 +57,7 @@ namespace Bonfires
             BlockEntityBonfire bef = api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityBonfire;
             if (bef != null && !bef.Burning)
             {
-                bef.ignite();
+                bef.ignite((byEntity as EntityPlayer)?.PlayerUID);
             }
 
             handling = EnumHandling.PreventDefault;

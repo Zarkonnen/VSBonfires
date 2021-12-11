@@ -129,13 +129,6 @@
 	selectionbox: { x1: 0.0625, y1: 0, z1: 0.0625, x2: 0.9375, y2: 0.5, z2: 0.9375 },
 	collisionbox: { x1: 0.0625, y1: 0, z1: 0.0625, x2: 0.9375, y2: 0.5, z2: 0.9375 },
 	dropsByType: {
-		"bonfire-extinct": [
-			{
-				type: "item",
-				code: "game:charcoal",
-				quantity: { avg: 2.5, var: 0.5 }
-			}
-		],
 		"bonfire-construct1": [
 			{
 				type: "item",
